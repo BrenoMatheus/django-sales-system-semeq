@@ -1,3 +1,4 @@
 from django.shortcuts import render
 
-# Create your views here.
+def create_sale(request):
+    return render(request, 'sales/create_sale.html')
