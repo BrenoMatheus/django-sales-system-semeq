@@ -25,6 +25,12 @@ class Product(models.Model):
     stock = models.PositiveIntegerField(default=0)
     active = models.BooleanField(default=True)
 
+    image = models.ImageField(
+        upload_to="products/%Y/%m/",
+        blank=True,
+        null=True
+    )
+
     category = models.ForeignKey(
         Category,
         on_delete=models.SET_NULL,

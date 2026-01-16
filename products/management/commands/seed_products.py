@@ -1,6 +1,9 @@
 from django.core.management.base import BaseCommand
 from products.models import Category, Supplier, Product
 from decimal import Decimal
+from django.core.files.base import ContentFile
+from django.core.files.storage import default_storage
+
 import random
 
 
@@ -38,13 +41,19 @@ class Command(BaseCommand):
 
         # Produtos
         for i in range(1, 16):
+            # REMOVA A VÍRGULA ABAIXO. Deve ser apenas random.choice(categories)
+            category_obj = random.choice(categories) 
+
             product, created = Product.objects.get_or_create(
                 name=f"Produto {i}",
+                sku=f"SKU-{i}",
                 defaults={
                     "description": "Produto de teste",
                     "price": Decimal(random.randint(10, 300)),
                     "stock": random.randint(1, 100),
-                    "category": random.choice(categories),
+                    "category": category_obj, 
+                    #vamos ter ma imagem base de categoria por isso estamos definindo este nome
+                    "image": f"products/{category_obj.name.lower()}.jpeg"
                 }
             )
 
