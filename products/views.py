@@ -4,16 +4,16 @@ from .models import Product
 
 
 def product_list(request):
-    search = request.GET.get("q")
+    search = request.GET.get("search", "")
+
+    products = Product.objects.select_related("category").prefetch_related("suppliers")
 
     if search:
-        products = Product.objects.filter(name__icontains=search)
-    else:
-        products = Product.objects.all()
+        products = products.filter(name__icontains=search)
 
     return render(request, "products/product_list.html", {
         "products": products,
-        "search": search or ""
+        "search": search,
     })
 
 def product_detail(request, pk):
