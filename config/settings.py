@@ -37,7 +37,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Apps do projeto
+    'products.apps.ProductsConfig',
+    'customers.apps.CustomersConfig',
+    'sales.apps.SalesConfig',
+    'users.apps.UsersConfig',
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
