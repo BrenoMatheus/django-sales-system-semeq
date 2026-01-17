@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <h2 class="mb-4">🛒 Seu carrinho</h2>
+
+    {% if cart.cart %}
+        <div class="card shadow-sm">
+            <div class="card-body">
+
+                {% for item in cart %}
+                    <div class="d-flex align-items-center justify-content-between border-bottom py-3">
+
+                        <div class="d-flex align-items-center gap-3">
+                            {% if item.image %}
+                                <img src="{{ item.image }}" width="70" height="70" style="object-fit: cover;" class="rounded">
+                            {% endif %}
+
+                            <div>
+                                <strong>{{ item.name }}</strong><br>
+                                <form method="post" action="{% url 'cart_add' item.id %}" class="d-flex gap-2">
+                                    {% csrf_token %}
+
+                                    <input type="number" name="qty" value="{{ item.qty }}" min="1" class="form-control form-control-sm" style="width: 70px;">
+
+                                    <input type="hidden" name="override" value="1">
+
+                                    <button class="btn btn-sm btn-outline-primary">
+                                        Atualizar
+                                    </button>
+                                </form>
+
+                            </div>
+                        </div>
+
+                        <div>
+                            <strong>R$ {{ item.total }}</strong>
+                        </div>
+
+                        <div>
+                            <a href="{% url 'cart_remove' item.id %}" class="btn btn-sm btn-outline-danger">
+                                Remover
+                            </a>
+                        </div>
+
+                    </div>
+                {% endfor %}
+
+                <div class="text-end mt-4">
+                    <h4>Total: R$ {{ cart.get_total }}</h4>
+                </div>
+            </div>
+             <div class="p-2 d-flex gap-2 justify-content-end">
+                <a href="/produtos" class="btn btn-primary ">
+                    continuar comprando
+                </a>
+                <a href="/" class="btn btn-outline-secondary">
+                    Finalizar
+                </a>
+            </div>
+        </div>
+    {% else %}
+        <div class="alert alert-info">Seu carrinho está vazio.</div>
+    {% endif %}
+</div>
+{% endblock %}
