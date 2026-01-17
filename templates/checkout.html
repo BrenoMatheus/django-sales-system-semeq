@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <h2 class="mb-4">Finalização da compra</h2>
+
+    <div class="card shadow-sm p-4">
+        <form method="post">
+            {% csrf_token %}
+
+            <h5 class="mb-3">Endereço de entrega</h5>
+
+            {% include "components/address_form.html" %}
+
+            <button class="btn btn-success mt-4">
+                Finalizar compra
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}
