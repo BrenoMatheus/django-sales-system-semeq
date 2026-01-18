@@ -2,41 +2,59 @@
 
 {% block content %}
 <div class="container py-4">
-    <h2 class="mb-4">📦 Meus pedidos</h2>
+    <h2 class="mb-4">📦 Histórico de Compras</h2>
 
     {% if sales %}
-        {% for sale in sales %}
-            <div class="card mb-3 shadow-sm">
-                <div class="card-body">
+        <div class="accordion" id="ordersAccordion">
+            {% for sale in sales %}
+                
+                    <div class="d-flex justify-content-between align-items-center px-3 py-2">
+                        <h2 class="accordion-header mb-0 w-100">
+                            <button class="accordion-button collapsed" type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#order{{ sale.id }}">
+                                Pedido #{{ sale.id }} — {{ sale.created_at|date:"d/m/Y H:i" }}
+                            </button>
+                        </h2>
 
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h6 class="mb-0">Pedido #{{ sale.id }}</h6>
-                        <small class="text-muted">
-                            {{ sale.created_at|date:"d/m/Y H:i" }}
-                        </small>
+                        <div class="fw-bold text-success ms-3 text-nowrap">
+                            Total: R$ {{ sale.total }}
+                        </div>
                     </div>
+                    <div id="order{{ sale.id }}" class="accordion-collapse collapse">
+                        <div class="accordion-body">
 
-                    <p class="mt-2 mb-1">
-                        <strong>Entrega:</strong>
-                        {{ sale.street }}, {{ sale.neighborhood }} - 
-                        {{ sale.city }}/{{ sale.state }}
-                    </p>
+                            <p><strong>Endereço:</strong>
+                                {{ sale.street }}, {{ sale.neighborhood }} -
+                                {{ sale.city }}/{{ sale.state }}
+                            </p>
 
-                    <ul class="small mt-2">
-                        {% for item in sale.items.all %}
-                            <li>
-                                {{ item.quantity }}x {{ item.product.name }} — 
-                                R$ {{ item.subtotal }}
-                            </li>
-                        {% endfor %}
-                    </ul>
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Produto</th>
+                                        <th>Qtd</th>
+                                        <th>Preço</th>
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in sale.items.all %}
+                                        <tr>
+                                            <td>{{ item.product.name }}</td>
+                                            <td>{{ item.quantity }}</td>
+                                            <td>R$ {{ item.unit_price }}</td>
+                                            <td>R$ {{ item.subtotal }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
 
-                    <div class="text-end fw-bold text-success">
-                        Total: R$ {{ sale.total }}
+                        </div>
                     </div>
                 </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
     {% else %}
         <div class="alert alert-info">
             Você ainda não realizou nenhuma compra.
@@ -44,3 +62,5 @@
     {% endif %}
 </div>
 {% endblock %}
+
+               
