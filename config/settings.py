@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'products.apps.ProductsConfig',
     'customers.apps.CustomersConfig',
     'sales.apps.SalesConfig',
-    'users.apps.UsersConfig',
+    'accounts.apps.AccountsConfig',
     'cart.apps.CartConfig',
 ]
 
@@ -127,6 +127,11 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
+LOGIN_URL = "/accounts/login/"
+
+LOGIN_REDIRECT_URL = "/"
+
+LOGOUT_REDIRECT_URL = "/"
 
 STATIC_URL = 'static/'
 

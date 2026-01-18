@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from products.models import Product
 from .cart import Cart
-
+from django.contrib.auth.decorators import login_required
 
 def cart_detail(request):
     cart = Cart(request)
@@ -25,6 +25,8 @@ def cart_remove(request, product_id):
     cart.remove(product)
     return redirect("cart_detail")
 
+
+@login_required
 def buy_now(request, product_id):
     product = get_object_or_404(Product, id=product_id)
 

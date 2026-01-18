@@ -4,28 +4,100 @@
     <meta charset="UTF-8">
     <title>{% block title %}Portal Stream{% endblock %}</title>
 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    {% block extra_head %}{% endblock %}
 </head>
-<body class="bg-light">
 
-<nav class="navbar navbar-dark bg-dark px-4">
-    <a class="navbar-brand" href="/produtos/">🛍 Portal Stream</a>
+<body class="bg-light d-flex flex-column min-vh-100">
 
-    <div class="d-flex gap-3 align-items-center">
-        <a href="/cart/" class="text-white fs-5">
-            <i class="bi bi-cart"></i>
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+    <div class="container">
+
+        <!-- Logo -->
+        <a class="navbar-brand fw-bold" href="/produtos/">
+            🛍 Portal Stream
         </a>
 
-        <a href="/logout/" class="text-white fs-5">
-            <i class="bi bi-person-circle"></i>
-        </a>
+        <!-- Mobile button -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Menu -->
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <ul class="navbar-nav ms-auto align-items-lg-center gap-3">
+
+                <!-- Carrinho -->
+                <li class="nav-item">
+                    <a href="/cart/" class="nav-link position-relative">
+                        <i class="bi bi-cart fs-5"></i>
+                    </a>
+                </li>
+
+                {% if user.is_authenticated %}
+
+                    <!-- Dropdown usuário -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center gap-2" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle fs-5"></i>
+                            <span class="d-none d-lg-inline small">
+                                {{ user.username }}
+                            </span>
+                        </a>
+
+                        <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                            <li>
+                                <a class="dropdown-item" href="/sales/history/">
+                                    📦 Histórico de pedidos
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item text-danger" href="/accounts/logout/">
+                                    🚪 Sair
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                {% else %}
+
+                    <!-- Botão login -->
+                    <li class="nav-item">
+                        <a href="/accounts/login/" class="btn btn-outline-light btn-sm px-3">
+                            Entrar
+                        </a>
+                    </li>
+
+                {% endif %}
+            </ul>
+        </div>
     </div>
 </nav>
 
-<div class="container mt-4">
-    {% block content %}{% endblock %}
-</div>
+<!-- CONTEÚDO -->
+<main class="flex-fill">
+    <div class="container py-4">
+        {% block content %}{% endblock %}
+    </div>
+</main>
 
+<!-- FOOTER -->
+<footer class="bg-white border-top py-3 mt-auto">
+    <div class="container text-center small text-muted">
+        © {{ now|date:"Y" }} Portal Stream — Projeto educacional
+    </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+{% block extra_js %}{% endblock %}
 </body>
 </html>

@@ -6,10 +6,12 @@ from products.models import Product
 from customers.models import Customer
 from django.utils import timezone
 from cart.cart import Cart
+from django.contrib.auth.decorators import login_required
 
 def create_sale(request):
     return render(request, 'sales/create_sale.html')
 
+@login_required
 def checkout(request):
     cart = Cart(request)
     customer = Customer.objects.first()
