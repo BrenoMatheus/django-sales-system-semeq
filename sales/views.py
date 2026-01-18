@@ -7,6 +7,7 @@ from customers.models import Customer
 from django.utils import timezone
 from cart.cart import Cart
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 def create_sale(request):
     return render(request, 'sales/create_sale.html')
@@ -14,43 +15,59 @@ def create_sale(request):
 @login_required
 def checkout(request):
     cart = Cart(request)
+
+    # Garante que o usuário tenha customer
+    if not hasattr(request.user, "customer"):
+        messages.error(request, "Usuário sem perfil de cliente.")
+        return redirect("product_list")
+
     customer = request.user.customer
 
-
-    if not cart:
-        return redirect("product_list")  # ou página de produtos
+    # Se carrinho vazio
+    if not cart or len(cart) == 0:
+        messages.warning(request, "Seu carrinho está vazio.")
+        return redirect("product_list")
 
     if request.method == "POST":
 
-        # 1. Criar a venda
+        # Captura dados
+        cep = request.POST.get("cep")
+        rua = request.POST.get("rua")
+        bairro = request.POST.get("bairro")
+        cidade = request.POST.get("cidade")
+        estado = request.POST.get("estado")
+
+        # Validação simples (obrigatórios)
+        if not all([cep, rua, bairro, cidade, estado]):
+            messages.error(request, "Preencha todos os campos do endereço.")
+            return render(request, "checkout.html")
+
+        # 1. Criar venda
         sale = Sale.objects.create(
-            #customer=request.user.customer,
             customer=customer,
             sale_date=timezone.now().date(),
-
-            cep=request.POST.get("cep"),
-            street=request.POST.get("rua"),
-            neighborhood=request.POST.get("bairro"),
-            city=request.POST.get("cidade"),
-            state=request.POST.get("estado"),
+            cep=cep,
+            street=rua,
+            neighborhood=bairro,
+            city=cidade,
+            state=estado,
         )
 
-        # 2. Criar os itens da venda
+        # 2. Criar itens da venda
         for item in cart:
             product = Product.objects.get(id=item["id"])
-            print(item)
+
             SaleItem.objects.create(
                 sale=sale,
                 product=product,
-                #product=item["product"],
                 quantity=item["qty"],
                 unit_price=item["price"],
             )
 
-        # 3. Limpar carrinho
+        # 3. Limpa carrinho
         cart.clear()
 
-        # 4. Redirecionar para sucesso
+        messages.success(request, "Compra finalizada com sucesso!")
         return redirect("order_success")
 
     return render(request, "checkout.html")

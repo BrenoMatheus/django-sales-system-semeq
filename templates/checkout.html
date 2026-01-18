@@ -5,14 +5,19 @@
     <h2 class="mb-4">Finalização da compra</h2>
 
     <div class="card shadow-sm p-4">
+        
         <form method="post" action="{% url 'checkout' %}">
             {% csrf_token %}
 
             <h5 class="mb-3">Endereço de entrega</h5>
 
             {% include "components/address_form.html" %}
-
-            <button class="btn btn-success mt-4">
+            {% if messages %}
+                {% for msg in messages %}
+                    <div class="alert alert-danger mt-4">{{ msg }}</div>
+                {% endfor %}
+            {% endif %}
+            <button class="btn btn-success mt-2">
                 Finalizar compra
             </button>
         </form>

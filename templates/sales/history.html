@@ -6,54 +6,56 @@
 
     {% if sales %}
         <div class="accordion" id="ordersAccordion">
-            {% for sale in sales %}
-                
-                    <div class="d-flex justify-content-between align-items-center px-3 py-2">
-                        <h2 class="accordion-header mb-0 w-100">
-                            <button class="accordion-button collapsed" type="button"
-                                    data-bs-toggle="collapse"
-                                    data-bs-target="#order{{ sale.id }}">
-                                Pedido #{{ sale.id }} — {{ sale.created_at|date:"d/m/Y H:i" }}
-                            </button>
-                        </h2>
+        {% for sale in sales %}
+            <div class="accordion-item mb-2 shadow-sm">
 
-                        <div class="fw-bold text-success ms-3 text-nowrap">
-                            Total: R$ {{ sale.total }}
-                        </div>
-                    </div>
-                    <div id="order{{ sale.id }}" class="accordion-collapse collapse">
-                        <div class="accordion-body">
+                <h2 class="accordion-header" id="heading{{ sale.id }}">
+                    <button class="accordion-button collapsed" type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#order{{ sale.id }}">
+                        Pedido #{{ sale.id }} — {{ sale.created_at|date:"d/m/Y H:i" }}
+                    </button>
+                </h2>
 
-                            <p><strong>Endereço:</strong>
-                                {{ sale.street }}, {{ sale.neighborhood }} -
-                                {{ sale.city }}/{{ sale.state }}
-                            </p>
+                <div class="px-3 pb-2 text-end fw-bold text-success">
+                    Total: R$ {{ sale.total }}
+                </div>
 
-                            <table class="table table-sm">
-                                <thead>
-                                    <tr>
-                                        <th>Produto</th>
-                                        <th>Qtd</th>
-                                        <th>Preço</th>
-                                        <th>Subtotal</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for item in sale.items.all %}
-                                        <tr>
-                                            <td>{{ item.product.name }}</td>
-                                            <td>{{ item.quantity }}</td>
-                                            <td>R$ {{ item.unit_price }}</td>
-                                            <td>R$ {{ item.subtotal }}</td>
-                                        </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
+                <div id="order{{ sale.id }}" class="accordion-collapse collapse">
+                    <div class="accordion-body">
 
-                        </div>
+                        <p><strong>Endereço:</strong>
+                            {{ sale.street }}, {{ sale.neighborhood }} -
+                            {{ sale.city }}/{{ sale.state }}
+                        </p>
+
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Produto</th>
+                                    <th>Qtd</th>
+                                    <th>Preço</th>
+                                    <th>Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in sale.items.all %}
+                                <tr>
+                                    <td>{{ item.product.name }}</td>
+                                    <td>{{ item.quantity }}</td>
+                                    <td>R$ {{ item.unit_price }}</td>
+                                    <td>R$ {{ item.subtotal }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+
                     </div>
                 </div>
+
+            </div>
             {% endfor %}
+
         </div>
     {% else %}
         <div class="alert alert-info">
