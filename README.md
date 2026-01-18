@@ -141,9 +141,9 @@ O projeto já possui alguns usuários criados automaticamente pelas seeds (`seed
 
 | Usuário         | Email              | Senha   | Papel / Permissão |
 |-----------------|------------------|--------|-----------------|
-| Admin           | admin@exemplo.com | z | cliente   |
-| Usuário padrão  | cliente@email.com  | 123456 | Padrão          |
-| Vendedor        | seller@exemplo.com | 123456 | Vendedor        |
+| admin           | admin@exemplo.com | admin123 | cliente   |
+| cliente  | cliente@email.com  | 123456 | Padrão          |
+| 
 
 > * Dica: Para ver todos os usuários criados, você pode rodar:  
 > ```bash
