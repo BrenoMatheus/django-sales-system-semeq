@@ -7,13 +7,13 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
 
-        self.stdout.write("🌱 Rodando seeds de usuários...")
+        self.stdout.write("Rodando seeds de usuários...")
         call_command("seed_accounts")
 
-        self.stdout.write("🌱 Rodando seeds de customers...")
+        self.stdout.write("Rodando seeds de customers...")
         call_command("seed_customers")
 
-        self.stdout.write("🌱 Rodando seeds de produtos...")
+        self.stdout.write("Rodando seeds de produtos...")
         call_command("seed_products")
 
         self.stdout.write(self.style.SUCCESS("✅ Todas as seeds executadas com sucesso!"))

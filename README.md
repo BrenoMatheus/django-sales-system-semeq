@@ -59,12 +59,7 @@ source venv/bin/activate   # Linux / Mac
 venv\Scripts\activate      # Windows
 ```
 
-
-### 3. Instalar dependências
-```bash
-pip install -r requirements.txt
-```
-### 4. Configurar banco PostgreSQL
+### 3. Configurar banco PostgreSQL
 
 Crie o banco e o usuário no PostgreSQL:
 ```bash
@@ -139,6 +134,24 @@ python manage.py runserver
 
 ### Executando os testes automatizados
 ```
+
+### Usuários de teste
+
+O projeto já possui alguns usuários criados automaticamente pelas seeds (`seed_all`). Use os dados abaixo para login:
+
+| Usuário         | Email              | Senha   | Papel / Permissão |
+|-----------------|------------------|--------|-----------------|
+| Admin           | admin@exemplo.com | z | cliente   |
+| Usuário padrão  | cliente@email.com  | 123456 | Padrão          |
+| Vendedor        | seller@exemplo.com | 123456 | Vendedor        |
+
+> * Dica: Para ver todos os usuários criados, você pode rodar:  
+> ```bash
+> python manage.py shell
+> from django.contrib.auth.models import User
+> User.objects.all()
+> ```
+
 
 ### Executando os testes automatizados
 ```bash
