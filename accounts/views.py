@@ -22,7 +22,7 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    return render(request, "accounts/login.html")
+    return redirect("/accounts/login/") 
 
 def register(request):
     if request.method == "POST":
