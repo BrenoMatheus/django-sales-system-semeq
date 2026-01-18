@@ -1,39 +1,41 @@
 {% load static %}
+
 <div class="row g-3">
 
   <div class="col-md-4">
     <label class="form-label">CEP</label>
     <div class="input-group">
-      <input type="text" id="cep" name="cep" class="form-control" placeholder="00000-000">
+      {{ form.cep }}
       <button type="button" id="btnBuscarCep" class="btn btn-outline-primary">
         Buscar
       </button>
     </div>
     <small id="cepFeedback" class="text-muted"></small>
+    {% if form.cep.errors %}
+      <div class="text-danger small">{{ form.cep.errors.0 }}</div>
+    {% endif %}
   </div>
 
   <div class="col-md-8">
     <label class="form-label">Rua</label>
-    <input type="text" id="rua" name="rua" class="form-control">
+    {{ form.rua }}
   </div>
 
   <div class="col-md-6">
     <label class="form-label">Bairro</label>
-    <input type="text" id="bairro" name="bairro" class="form-control">
+    {{ form.bairro }}
   </div>
 
   <div class="col-md-4">
     <label class="form-label">Cidade</label>
-    <input type="text" id="cidade" name="cidade" class="form-control">
+    {{ form.cidade }}
   </div>
 
   <div class="col-md-2">
     <label class="form-label">Estado</label>
-    <input type="text" id="estado" name="estado" class="form-control">
+    {{ form.estado }}
   </div>
 
 </div>
-
-
 
 <script src="{% static 'js/viacep.js' %}"></script>

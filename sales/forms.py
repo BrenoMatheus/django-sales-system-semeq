@@ -2,27 +2,43 @@ from django import forms
 
 class CheckoutForm(forms.Form):
     cep = forms.CharField(
-        max_length=9,
         required=True,
-        label="CEP"
+        widget=forms.TextInput(attrs={
+            "class": "form-control",
+            "id": "cep",
+            "placeholder": "00000-000"
+        })
     )
+
     rua = forms.CharField(
-        max_length=255,
         required=True,
-        label="Rua"
+        widget=forms.TextInput(attrs={
+            "class": "form-control",
+            "id": "rua"
+        })
     )
+
     bairro = forms.CharField(
-        max_length=100,
         required=True,
-        label="Bairro"
+        widget=forms.TextInput(attrs={
+            "class": "form-control",
+            "id": "bairro"
+        })
     )
+
     cidade = forms.CharField(
-        max_length=100,
         required=True,
-        label="Cidade"
+        widget=forms.TextInput(attrs={
+            "class": "form-control",
+            "id": "cidade"
+        })
     )
+
     estado = forms.CharField(
-        max_length=2,
         required=True,
-        label="Estado"
+        widget=forms.TextInput(attrs={
+            "class": "form-control",
+            "id": "estado",
+            "maxlength": "2"
+        })
     )
