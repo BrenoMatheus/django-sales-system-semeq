@@ -2,6 +2,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from .forms import RegisterForm
+from customers.models import Customer
 
 def login_view(request):
     if request.method == "POST":
@@ -34,10 +35,17 @@ def register(request):
                 password=form.cleaned_data["password"]
             )
 
-            login(request, user)  # já loga o usuário após registrar
-            return redirect("/produtos/")
+            # cria o customer vinculado
+            Customer.objects.create(
+                user=user,
+                name=user.username,
+                email=user.email
+            )
 
+            login(request, user)
+            return redirect("/produtos/")
     else:
+        # 👇 agora sim o GET também cria form
         form = RegisterForm()
 
     return render(request, "accounts/register.html", {"form": form})

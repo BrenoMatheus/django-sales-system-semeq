@@ -5,11 +5,11 @@ class Customer(models.Model):
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name="customer",
-        null=True,
-        blank=True
+        related_name="customer"
     )
 
     name = models.CharField(max_length=150)
     email = models.EmailField()
-    # outros campos...
+
+    def __str__(self):
+        return self.name or self.user.username

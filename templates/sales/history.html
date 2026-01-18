@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-4">
+    <h2 class="mb-4">📦 Meus pedidos</h2>
+
+    {% if sales %}
+        {% for sale in sales %}
+            <div class="card mb-3 shadow-sm">
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h6 class="mb-0">Pedido #{{ sale.id }}</h6>
+                        <small class="text-muted">
+                            {{ sale.created_at|date:"d/m/Y H:i" }}
+                        </small>
+                    </div>
+
+                    <p class="mt-2 mb-1">
+                        <strong>Entrega:</strong>
+                        {{ sale.street }}, {{ sale.neighborhood }} - 
+                        {{ sale.city }}/{{ sale.state }}
+                    </p>
+
+                    <ul class="small mt-2">
+                        {% for item in sale.items.all %}
+                            <li>
+                                {{ item.quantity }}x {{ item.product.name }} — 
+                                R$ {{ item.subtotal }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+
+                    <div class="text-end fw-bold text-success">
+                        Total: R$ {{ sale.total }}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="alert alert-info">
+            Você ainda não realizou nenhuma compra.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

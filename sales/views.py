@@ -14,7 +14,8 @@ def create_sale(request):
 @login_required
 def checkout(request):
     cart = Cart(request)
-    customer = Customer.objects.first()
+    customer = request.user.customer
+
 
     if not cart:
         return redirect("product_list")  # ou página de produtos
@@ -53,6 +54,17 @@ def checkout(request):
         return redirect("order_success")
 
     return render(request, "checkout.html")
+
+@login_required
+def sales_history(request):
+    sales = Sale.objects.filter(
+        customer__user=request.user
+    ).order_by("-created_at")
+
+    return render(request, "sales/history.html", {
+        "sales": sales
+    })
+
 
 def order_success(request):
     return render(request, "order_success.html")
