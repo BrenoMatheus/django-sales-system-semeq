@@ -15,8 +15,11 @@ class Sale(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
 
+    def total(self):
+        return sum(item.subtotal() for item in self.items.all())
+
     def __str__(self):
-        return f"Sale #{self.id} - {self.customer.name}"
+        return f"Pedido #{self.id} - {self.customer.user.username}"
 
 
 class SaleItem(models.Model):
