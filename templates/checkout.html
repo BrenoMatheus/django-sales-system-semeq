@@ -5,7 +5,7 @@
     <h2 class="mb-4">Finalização da compra</h2>
 
     <div class="card shadow-sm p-4">
-        <form method="post">
+        <form method="post" action="{% url 'checkout' %}">
             {% csrf_token %}
 
             <h5 class="mb-3">Endereço de entrega</h5>
