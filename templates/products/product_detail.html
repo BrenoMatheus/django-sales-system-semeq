@@ -49,6 +49,11 @@
                     </button>
                 </div>
             </form>
+            
+            <form method="post" action="{% url 'buy_now' product.id %}">
+                {% csrf_token %}
+                <button class="btn btn-success">Comprar agora</button>
+            </form>
 
             <a href="{% url 'product_list' %}" class="btn btn-outline-secondary">
                 Voltar

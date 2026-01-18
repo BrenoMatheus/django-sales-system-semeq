@@ -24,3 +24,13 @@ def cart_remove(request, product_id):
 
     cart.remove(product)
     return redirect("cart_detail")
+
+def buy_now(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+
+    cart = Cart(request)
+    qty = int(request.POST.get("qty", 1))
+
+    cart.add(product, qty=qty)
+
+    return redirect("checkout")
