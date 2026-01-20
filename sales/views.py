@@ -62,9 +62,6 @@ def checkout(request):
     return render(request, "checkout.html", {"form": form})
 
 
-    return render(request, "checkout.html", {"form": form})
-
-
 @login_required
 def sales_history(request):
     sales = Sale.objects.filter(
@@ -75,9 +72,6 @@ def sales_history(request):
         "sales": sales
     })
 
-
-def order_success(request):
-    return render(request, "order_success.html")
 
 def order_success(request):
     return render(request, "order_success.html")
