@@ -59,6 +59,12 @@ source venv/bin/activate   # Linux / Mac
 venv\Scripts\activate      # Windows
 ```
 
+### 2.5 Instalar dependências
+Certifique-se de ter o compilador de imagens (Pillow) e o driver do banco instalados:
+```bash
+pip install -r requirements.txt
+```
+
 ### 3. Configurar banco PostgreSQL
 
 Crie o banco e o usuário no PostgreSQL:
@@ -71,6 +77,11 @@ ALTER ROLE portal_user SET default_transaction_isolation TO 'read committed';
 ALTER ROLE portal_user SET timezone TO 'UTC';
 
 GRANT ALL PRIVILEGES ON DATABASE portal_stream TO portal_user;
+
+\c portal_stream
+
+GRANT ALL ON SCHEMA public TO portal_user;
+ALTER SCHEMA public OWNER TO portal_user;
 ```
 
 Verifique se em settings.py está configurado assim:
@@ -97,13 +108,14 @@ O projeto possui um script automatizado que:
 * Inicia o servidor
 
 Observação: Na primeira vez que for rodar, é necessário dar permissão de execução ao script:
+* linux
 ```bash
 chmod +x setup.sh
-```
-
-Depois, execute normalmente:
-```bash
 ./setup.sh
+```
+* windowns
+```bash
+setup.bat
 ```
 
 * Produtos:
@@ -120,8 +132,8 @@ Depois, execute normalmente:
 Se preferir rodar sem o script setup.sh, execute os comandos abaixo na raiz do projeto (onde está o manage.py):
 
 ```bash
-# Reseta o banco de dados
-python manage.py flush --no-input
+# nstalando dependencias
+pip install -r requirements.txt
 
 # Aplica as migrations
 python manage.py migrate
